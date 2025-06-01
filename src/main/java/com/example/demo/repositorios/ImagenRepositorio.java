@@ -1,13 +1,13 @@
-package com.example.demo.repositorios;
+// package com.example.demo.repositorios;
 
-import java.util.UUID;
+// import java.util.UUID;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+// import org.springframework.data.jpa.repository.JpaRepository;
+// import org.springframework.stereotype.Repository;
 
-import com.example.demo.entidades.Imagen;
+// import com.example.demo.entidades.Imagen;
 
-@Repository
-public interface ImagenRepositorio extends JpaRepository<Imagen, UUID> {
+// @Repository
+// public interface ImagenRepositorio extends JpaRepository<Imagen, UUID> {
 
-}
+// }

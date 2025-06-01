@@ -34,8 +34,8 @@ public class UsuarioServicio implements UserDetailsService {
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
 
-    @Autowired
-    private ImagenServicio imagenServicio;
+    // @Autowired
+    // private ImagenServicio imagenServicio;
 
     @Autowired
     private BCryptPasswordEncoder encoder;
@@ -50,9 +50,9 @@ public class UsuarioServicio implements UserDetailsService {
         nuevoUsuario.setPassword(encoder.encode(password));
         nuevoUsuario.setRol(Rol.USER);
 
-        if (archivo != null) {
-            nuevoUsuario.setImagen(imagenServicio.guardarImagen(archivo));
-        }
+        // if (archivo != null) {
+        //     nuevoUsuario.setImagen(imagenServicio.guardarImagen(archivo));
+        // }
 
         usuarioRepositorio.save(nuevoUsuario);
 
@@ -95,7 +95,6 @@ public class UsuarioServicio implements UserDetailsService {
 
         if (usuario == null) {
             logger.warn("Usuario no encontrado: " + email);
-            throw new UsernameNotFoundException("Usuario no encontrado");
         }
 
         logger.warn("Usuario encontrado: " + usuario.getEmail());
@@ -166,9 +165,9 @@ public class UsuarioServicio implements UserDetailsService {
             usuario.get().setNombre(nombre);
             usuario.get().setEmail(email);
 
-            if (archivo != null) {
-                usuario.get().setImagen(imagenServicio.actualizarImagen(archivo, id));
-            }
+            // if (archivo != null) {
+            //     usuario.get().setImagen(imagenServicio.actualizarImagen(archivo, id));
+            // }
 
             usuarioRepositorio.save(usuario.get());
         } else {
