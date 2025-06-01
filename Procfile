@@ -1,1 +1,1 @@
-web: java -Xmx192m -Xms64m -jar target/demo-0.0.1-SNAPSHOT.jar
+web: java -Xmx128m -Xms32m -jar target/demo-0.0.1-SNAPSHOT.jar

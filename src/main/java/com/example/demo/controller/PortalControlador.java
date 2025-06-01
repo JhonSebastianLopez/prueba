@@ -62,14 +62,14 @@ public class PortalControlador {
 
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
-    @GetMapping("/inicio")
-    public String inicio(HttpSession session){
-        Usuario usuarioLogueado = (Usuario) session.getAttribute("usuariosession");
-        if (usuarioLogueado.getRol().toString().equals("ADMIN")) {
-            return "redirect:/admin/dashboard";
-        }
-        return "inicio.html";
-    }
+    // @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
+    // @GetMapping("/inicio")
+    // public String inicio(HttpSession session){
+    //     Usuario usuarioLogueado = (Usuario) session.getAttribute("usuariosession");
+    //     if (usuarioLogueado.getRol().toString().equals("ADMIN")) {
+    //         return "redirect:/admin/dashboard";
+    //     }
+    //     return "inicio.html";
+    // }
 
 }
