@@ -95,6 +95,11 @@ public class UsuarioServicio implements UserDetailsService {
         List<GrantedAuthority> permisos = new ArrayList<>();
         permisos.add(new SimpleGrantedAuthority("ROLE_" + usuario.getRol().name()));
 
+        ServletRequestAttributes attr = (ServletRequestAttributes)
+        RequestContextHolder.currentRequestAttributes();
+        HttpSession session = attr.getRequest().getSession(true);
+        session.setAttribute("usuariosession", usuario);
+
         return new User(usuario.getEmail(), usuario.getPassword(), permisos);
 
         // Usuario usuario = usuarioRepositorio.buscarPorEmail(email);
