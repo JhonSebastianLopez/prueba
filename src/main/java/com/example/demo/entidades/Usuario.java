@@ -1,8 +1,8 @@
-package com.egg.biblioteca.entidades;
+package com.example.demo.entidades;
 
 import java.util.UUID;
 
-import com.egg.biblioteca.enumeraciones.Rol;
+import com.example.demo.enumeraciones.Rol;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
