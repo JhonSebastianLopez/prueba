@@ -92,6 +92,8 @@ public class UsuarioServicio implements UserDetailsService {
             throw new UsernameNotFoundException("Usuario no encontrado");
         }
 
+        System.out.println("Usuario encontrado: " + usuario.getEmail());
+        System.out.println("Rol del usuario: " + usuario.getRol());
         List<GrantedAuthority> permisos = new ArrayList<>();
         permisos.add(new SimpleGrantedAuthority("ROLE_" + usuario.getRol().name()));
 
@@ -108,8 +110,7 @@ public class UsuarioServicio implements UserDetailsService {
         // GrantedAuthority p = new SimpleGrantedAuthority("ROLE_" +
         // usuario.getRol().toString());
         // permisos.add(p);
-        // // ServletRequestAttributes attr = (ServletRequestAttributes)
-        // RequestContextHolder.currentRequestAttributes();
+        // // ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         // // HttpSession session = attr.getRequest().getSession(true);
         // // session.setAttribute("usuariosession", usuario);
         // return new User(usuario.getEmail(), usuario.getPassword(), permisos);
