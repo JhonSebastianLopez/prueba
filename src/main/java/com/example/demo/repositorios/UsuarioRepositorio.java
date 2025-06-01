@@ -12,7 +12,7 @@ import com.example.demo.entidades.Usuario;
 @Repository
 public interface UsuarioRepositorio extends JpaRepository<Usuario, UUID> {
 
-    // @Query("SELECT u FROM Usuario u WHERE u.email = :email")
-    //     public Usuario buscarPorEmail(@Param("email") String email);
+    @Query("SELECT u FROM Usuario u WHERE u.email = :email")
+        public Usuario buscarPorEmail(@Param("email") String email);
 
 }
