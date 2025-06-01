@@ -89,6 +89,7 @@ public class UsuarioServicio implements UserDetailsService {
         Usuario usuario = usuarioRepositorio.buscarPorEmail(email);
 
         if (usuario == null) {
+            System.out.println("Usuario no encontrado: " + email);
             throw new UsernameNotFoundException("Usuario no encontrado");
         }
 
