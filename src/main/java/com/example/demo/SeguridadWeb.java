@@ -14,7 +14,13 @@ public class SeguridadWeb {
             .authorizeHttpRequests(auth -> auth
                 .anyRequest().permitAll()  // Permite acceso a todo
             )
-            .formLogin().disable()       // Desactiva formulario de login
+            .formLogin((form) -> form
+                .loginPage("/login")
+                .loginProcessingUrl("/logincheck")
+                .usernameParameter("email")
+                .passwordParameter("password")
+                .defaultSuccessUrl("/inicio",true)
+                .permitAll())
             .httpBasic().disable()       // Desactiva autenticación básica
             .csrf(csrf -> csrf.disable()); // Desactiva CSRF (solo en desarrollo)
 
