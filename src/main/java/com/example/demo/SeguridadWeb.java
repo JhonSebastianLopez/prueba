@@ -21,8 +21,12 @@ public class SeguridadWeb {
                 .passwordParameter("password")
                 .defaultSuccessUrl("/inicio",true)
                 .permitAll())
-            .httpBasic().disable()       // Desactiva autenticación básica
-            .csrf(csrf -> csrf.disable()); // Desactiva CSRF (solo en desarrollo)
+            .logout((logout) -> logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/")
+                .permitAll())
+            .csrf(csrf -> csrf
+                .disable());
 
         return http.build();
     }
