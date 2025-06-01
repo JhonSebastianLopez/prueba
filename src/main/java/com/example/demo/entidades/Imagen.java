@@ -23,7 +23,6 @@ public class Imagen {
 
     @Lob
     @Basic(fetch = FetchType.LAZY)
-    @Column(columnDefinition = "BYTEA")
     private byte[] contenido;
 
     public Imagen() {
