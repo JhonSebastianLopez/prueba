@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.entidades.Usuario;
-// import com.example.demo.servicios.UsuarioServicio;
+import com.example.demo.servicios.UsuarioServicio;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -19,8 +19,8 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/")
 public class PortalControlador {
 
-    // @Autowired
-    // UsuarioServicio usuarioServicio;
+    @Autowired
+    UsuarioServicio usuarioServicio;
 
     @GetMapping("/") // Acá es donde realizamos el mapeo
     public String index(){
@@ -40,36 +40,36 @@ public class PortalControlador {
         return "login.html";
     }
 
-    // @PostMapping("/registro")
-    // public String registro(
-    //     @RequestParam(required = false) MultipartFile archivo,
-    //     @RequestParam(required = false) String nombre, 
-    //     @RequestParam(required = false) String email, 
-    //     @RequestParam(required = false) String password, 
-    //     @RequestParam(required = false) String password2, 
-    //     ModelMap modelo){
+    @PostMapping("/registro")
+    public String registro(
+        @RequestParam(required = false) MultipartFile archivo,
+        @RequestParam(required = false) String nombre, 
+        @RequestParam(required = false) String email, 
+        @RequestParam(required = false) String password, 
+        @RequestParam(required = false) String password2, 
+        ModelMap modelo){
 
-    //     try {
-    //         usuarioServicio.registrarUsuario(archivo, nombre, email, password, password2);
-    //         modelo.put("exito", "Usuario registrado correctamente");
-    //         return "index.html";  
-    //     } catch (Exception e) {
-    //         modelo.put("error", e.getMessage());
-    //         modelo.put("nombre", nombre);
-    //         modelo.put("email", email);
-    //         return "registro.html";
-    //     }
+        try {
+            usuarioServicio.registrarUsuario(archivo, nombre, email, password, password2);
+            modelo.put("exito", "Usuario registrado correctamente");
+            return "index.html";  
+        } catch (Exception e) {
+            modelo.put("error", e.getMessage());
+            modelo.put("nombre", nombre);
+            modelo.put("email", email);
+            return "registro.html";
+        }
 
-    // }
+    }
 
-    // @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
-    // @GetMapping("/inicio")
-    // public String inicio(HttpSession session){
-    //     Usuario usuarioLogueado = (Usuario) session.getAttribute("usuariosession");
-    //     if (usuarioLogueado.getRol().toString().equals("ADMIN")) {
-    //         return "redirect:/admin/dashboard";
-    //     }
-    //     return "inicio.html";
-    // }
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
+    @GetMapping("/inicio")
+    public String inicio(HttpSession session){
+        Usuario usuarioLogueado = (Usuario) session.getAttribute("usuariosession");
+        if (usuarioLogueado.getRol().toString().equals("ADMIN")) {
+            return "redirect:/admin/dashboard";
+        }
+        return "inicio.html";
+    }
 
 }
