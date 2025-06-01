@@ -21,7 +21,7 @@ public class Imagen {
     private String mimeType;
 
     @Lob
-    @Basic(fetch = FetchType.LAZY)
+    @Basic(fetch = FetchType.EAGER)
     private byte[] contenido;
 
     public Imagen() {
