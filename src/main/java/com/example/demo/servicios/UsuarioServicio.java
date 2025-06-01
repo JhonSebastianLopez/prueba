@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -83,18 +85,21 @@ public class UsuarioServicio implements UserDetailsService {
 
     }
 
+    private static final Logger logger = LoggerFactory.getLogger(UsuarioServicio.class);
+
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         Usuario usuario = usuarioRepositorio.buscarPorEmail(email);
 
         if (usuario == null) {
-            System.out.println("Usuario no encontrado: " + email);
+            logger.warn("Usuario no encontrado: " + email);
             throw new UsernameNotFoundException("Usuario no encontrado");
         }
 
-        System.out.println("Usuario encontrado: " + usuario.getEmail());
-        System.out.println("Rol del usuario: " + usuario.getRol());
+        logger.warn("Usuario encontrado: " + usuario.getEmail());
+        logger.warn("Rol del usuario: " + usuario.getRol());
         List<GrantedAuthority> permisos = new ArrayList<>();
         permisos.add(new SimpleGrantedAuthority("ROLE_" + usuario.getRol().name()));
 
