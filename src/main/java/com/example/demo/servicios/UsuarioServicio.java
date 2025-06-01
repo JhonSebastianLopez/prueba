@@ -30,18 +30,22 @@ import jakarta.servlet.http.HttpSession;
 public class UsuarioServicio implements UserDetailsService {
 
     @Autowired
-    UsuarioRepositorio usuarioRepositorio;
+    private UsuarioRepositorio usuarioRepositorio;
 
     @Autowired
-    ImagenServicio imagenServicio;
+    private ImagenServicio imagenServicio;
 
-    public void registrarUsuario(MultipartFile archivo, String nombre, String email, String password, String password2) throws Exception {
+    @Autowired
+    private BCryptPasswordEncoder encoder;
+
+    public void registrarUsuario(MultipartFile archivo, String nombre, String email, String password, String password2)
+            throws Exception {
 
         validar(nombre, email, password, password2);
         Usuario nuevoUsuario = new Usuario();
         nuevoUsuario.setNombre(nombre);
         nuevoUsuario.setEmail(email);
-        nuevoUsuario.setPassword(new BCryptPasswordEncoder().encode(password));
+        nuevoUsuario.setPassword(encoder.encode(password));
         nuevoUsuario.setRol(Rol.USER);
 
         if (archivo != null) {
@@ -49,7 +53,6 @@ public class UsuarioServicio implements UserDetailsService {
         }
 
         usuarioRepositorio.save(nuevoUsuario);
-        
 
     }
 
@@ -85,17 +88,30 @@ public class UsuarioServicio implements UserDetailsService {
 
         Usuario usuario = usuarioRepositorio.buscarPorEmail(email);
 
-        if (usuario != null) {
-            List<GrantedAuthority> permisos = new ArrayList<>();
-            GrantedAuthority p = new SimpleGrantedAuthority("ROLE_" + usuario.getRol().toString());
-            permisos.add(p);
-            ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-            HttpSession session = attr.getRequest().getSession(true);
-            session.setAttribute("usuariosession", usuario);
-            return new User(usuario.getEmail(), usuario.getPassword(), permisos);
-        } else {
-            return null;
+        if (usuario == null) {
+            throw new UsernameNotFoundException("Usuario no encontrado");
         }
+
+        List<GrantedAuthority> permisos = new ArrayList<>();
+        permisos.add(new SimpleGrantedAuthority("ROLE_" + usuario.getRol().name()));
+
+        return new User(usuario.getEmail(), usuario.getPassword(), permisos);
+
+        // Usuario usuario = usuarioRepositorio.buscarPorEmail(email);
+
+        // if (usuario != null) {
+        // List<GrantedAuthority> permisos = new ArrayList<>();
+        // GrantedAuthority p = new SimpleGrantedAuthority("ROLE_" +
+        // usuario.getRol().toString());
+        // permisos.add(p);
+        // // ServletRequestAttributes attr = (ServletRequestAttributes)
+        // RequestContextHolder.currentRequestAttributes();
+        // // HttpSession session = attr.getRequest().getSession(true);
+        // // session.setAttribute("usuariosession", usuario);
+        // return new User(usuario.getEmail(), usuario.getPassword(), permisos);
+        // } else {
+        // return null;
+        // }
 
     }
 
@@ -161,7 +177,7 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     @Transactional(readOnly = true)
-    public List<String> listaRols(){
+    public List<String> listaRols() {
         List<String> listaRols = new ArrayList<>();
         for (Rol rol : Rol.values()) {
             listaRols.add(rol.toString());
