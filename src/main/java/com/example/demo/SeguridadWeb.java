@@ -11,9 +11,12 @@ public class SeguridadWeb {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .authorizeHttpRequests(auth -> auth
-                .anyRequest().permitAll()  // Permite acceso a todo
-            )
+            .authorizeHttpRequests(authorize -> authorize
+                .requestMatchers("/admin/**").hasRole("ADMIN")
+                .requestMatchers("/usuarios/**").authenticated()
+                .requestMatchers("/css/", "/js/", "/img/", "/**").permitAll()
+                .requestMatchers("/login","/registro","/registrar").permitAll()
+                .anyRequest().authenticated())
             .formLogin((form) -> form
                 .loginPage("/login")
                 .loginProcessingUrl("/logincheck")
